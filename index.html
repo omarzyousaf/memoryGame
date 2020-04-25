@@ -6,16 +6,18 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <h1>Memory Game!</h1>
-    <form>
-      <label>How many boxes?</label>
-      <input type=number min=4 step=2 placeholder="Enter a number." id='challengeCount'>
-      <label>Name: </label>
-      <input type=text placeholder='enter your name'>
-    </form>
-    <button id='start'>Start</button>
-    <button id='reset'>Reset</button>
-    <p>Total Score: <span id='score'></span></p>
+    <div class="head">
+      <h1>Memory Game!</h1>
+      <form>
+        <label>How many boxes?</label>
+        <input type=number min=4 step=2 placeholder="Enter a number." id='challengeCount'>
+        <label>Name: </label>
+        <input type=text placeholder='enter your name'>
+      </form>
+      <button id='start'>Start</button>
+      <button id='reset'>Reset</button>
+      <p>Total Score: <span id='score'></span></p>
+    </div>
     <div id="game">
     </div>
     <script src="script.js"></script>

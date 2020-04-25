@@ -1,20 +1,22 @@
 const gameContainer = document.getElementById('game');
+const COLORS = [];
 let card1 = null;
 let card2 = null;
 let cardsFlipped = 0;
-let noClicking = false;
-// const COLORS = [ 'red', 'blue', 'green', 'orange', 'purple', 'red', 'blue', 'green', 'orange', 'purple' ];
-const COLORS = [];
 let gameCounter = 0;
+
+let noClicking = false;
+let gameSet = false;
+
 let startBtn = document.querySelector('#start');
 let resetBtn = document.querySelector('#reset');
-let gameSet = false;
 
 let yourScore = 0;
 let score = document.querySelector('#score');
 
 let challengeCount = document.querySelector('#challengeCount');
 
+//inserted code for random RGB color combinations
 function randomColorFunc(randColor) {
 	const newColor = Math.floor(Math.random() * 16777215).toString(16);
 	return newColor;
@@ -97,7 +99,7 @@ function handleCardClick(event) {
 		//then analyze these options
 		//if they have the same class - colors and flipped
 		if (card1.className === card2.className) {
-			gameCounter += 2;
+			cardsFlipped += 2;
 			card1.removeEventListener('click', handleCardClick);
 			card2.removeEventListener('click', handleCardClick);
 			card1 = null;
@@ -117,9 +119,11 @@ function handleCardClick(event) {
 		}
 	}
 	//for gameCounter and showing if User won!
-	let finalCount = Number(challengeCount.value);
-	if (gameCounter === finalCount) {
-		alert('YOU WON!');
+	let numberCards = Number(challengeCount.value);
+	if (cardsFlipped === numberCards) {
+		setTimeout(() => {
+			alert('YOU WON!');
+		}, 500);
 		gameCounter = 0;
 		gameSet = false;
 	}
@@ -127,13 +131,13 @@ function handleCardClick(event) {
 
 let newGame = function newGame() {
 	if (gameSet === false) {
-		gameCounter = 0;
+		cardsFlipped = 0;
 		gameContainer.textContent = '';
 		yourScore = 0;
 		score.textContent = 0;
 		let placeholder;
 		COLORS.length = 0;
-		for (let i = 0; i < Math.floor(challengeCount.value / 2); i++) {
+		for (let i = 0; i < challengeCount.value / 2; i++) {
 			placeholder = randomColorFunc();
 			COLORS.push(placeholder);
 			COLORS.push(placeholder);
