@@ -1,15 +1,10 @@
-/* * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-} */
-
 body {
 	height: 100vh;
 	display: flex;
 	align-items: stretch;
 	justify-content: left;
 	flex-direction: column;
+	font-family: Arial, Helvetica, sans-serif;
 }
 #game div {
 	display: inline-flex;
@@ -30,6 +25,12 @@ body {
 	/* transition: ease-in-out; */
 }
 
+.container {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
 .head {
 	color: white;
 	display: flex;
@@ -41,7 +42,26 @@ body {
 	text-transform: uppercase;
 	/* adds padding to top and bottom */
 	padding: 10px 20px;
-	margin: 2rem 20rem;
+	margin: 5rem 5rem;
+}
+
+#scoreboard {
+	text-align: center;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	text-transform: uppercase;
+	line-height: 1.5;
+	background: rgb(189, 0, 206);
+	font-weight: normal;
+	text-transform: uppercase;
+
+	/* adds padding to top and bottom */
+	padding: 10px 20px;
+	margin: 5rem 5rem;
+}
+
+#playerList {
 }
 
 input {
