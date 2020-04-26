@@ -1,4 +1,3 @@
 # memoryGame
-Simple Memory Game application generated with random colors.
-* next iteration: switching the random hexadecimal colors to icons.
-* adding stylization to the game
+Simple Memory Game application generated with random ICONS.
+* next iteration: updating the Scoreboard with different styles.
