@@ -1,8 +1,27 @@
 document.addEventListener('DOMContentLoaded', function() {
 	const gameContainer = document.getElementById('game');
-	const COLORS = [];
+	const CARDS = [
+		'fa-diamond',
+		'fa-paper-plane-o',
+		'fa-anchor',
+		'fa-bolt',
+		'fa-cube',
+		'fa-anchor',
+		'fa-leaf',
+		'fa-bicycle',
+		'fa-diamond',
+		'fa-bomb',
+		'fa-leaf',
+		'fa-bomb',
+		'fa-bolt',
+		'fa-bicycle',
+		'fa-paper-plane-o',
+		'fa-cube'
+	];
+	console.log(CARDS[0]);
 	let card1 = null;
 	let card2 = null;
+	let deck = document.querySelector('#deck');
 	let cardsFlipped = 0;
 	let yourScore = 0;
 	let noClicking = false;
@@ -27,10 +46,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	loadOldScores();
 
 	//generating random RGB color combinations for squares
-	function randomColorFunc(randColor) {
-		const newColor = Math.floor(Math.random() * 16777215).toString(16);
-		return newColor;
-	}
+	// function randomColorFunc(randColor) {
+	// 	const newColor = ICONS[]
+	// 	return newColor;
+	// }
 
 	// here is a helper function to shuffle an array
 	// it returns the same array with values shuffled
@@ -58,41 +77,40 @@ document.addEventListener('DOMContentLoaded', function() {
 	// this function loops over the array of colors
 	// it creates a new div and gives it a class with the value of the color
 	// it also adds an event listener for a click for each card
-	function createDivsForColors(colorArray) {
+	function createDivsForCards(iconArray) {
 		for (let i = 0; i < challengeCount.value; i++) {
-			let color = colorArray[i];
-
+			let icon = iconArray[i];
 			// create a new div
 			const newDiv = document.createElement('div');
 
 			// give it a class attribute for the value we are looping over
-			newDiv.classList.add(color);
+			newDiv.classList.add(icon);
 
 			// call a function handleCardClick when a div is clicked on
 			newDiv.addEventListener('click', handleCardClick);
 
 			// append the div to the element with an id of game
 			gameContainer.append(newDiv);
-
-			//
 		}
 	}
 
 	// TODO: Implement this function!
 	function handleCardClick(event) {
 		if (noClicking) return;
+		if (event.target.tagName === 'I') return;
+
 		// you can use event.target to see which element was clicked; code for informative purposes
-		console.log(`You just clicked #${event.target.classList[0]}`);
-		console.log(event.target);
-		console.log(event.target.classList);
+		console.log(`You just clicked ${event.target.classList[0]}`);
+		console.log(event);
 
 		//adding to the running score with each click
 		yourScore++;
 		score.textContent = yourScore;
 
-		//allowing cards to change colors
+		//allowing cards to change icons
 		let currentCard = event.target;
-		currentCard.style.backgroundColor = '#' + currentCard.classList[0];
+
+		currentCard.innerHTML = `<i class="fa ${currentCard.classList[0]}"></i>`;
 
 		//if no cards are selected upon click
 		if (card1 === null) {
@@ -110,6 +128,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			//then analyze these options
 			//if they have the same class - colors and flipped
 			if (card1.className === card2.className) {
+				card1.classList.add('matched');
+				card2.classList.add('matched');
 				cardsFlipped += 2;
 				card1.removeEventListener('click', handleCardClick);
 				card2.removeEventListener('click', handleCardClick);
@@ -121,6 +141,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				setTimeout(() => {
 					card1.classList.remove('flipped');
 					card2.classList.remove('flipped');
+					card1.innerHTML = '';
+					card2.innerHTML = '';
 					card1.style.backgroundColor = '';
 					card2.style.backgroundColor = '';
 					card1 = null;
@@ -137,11 +159,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			}, 500);
 
 			//set to local storage
-			localStorage.setItem(name.value, `${yourScore} points with ${numberCards} cards`);
+			localStorage.setItem(name.value, `${yourScore} points on ${numberCards} cards`);
 
 			//create a new line item on the Scoreboard
 			let newScore = document.createElement('li');
-			newScore.innerText = `${name.value}: ${yourScore} points with ${numberCards} cards`;
+			newScore.innerText = `${name.value}: ${yourScore} points on ${numberCards} cards`;
 			playerList.append(newScore);
 
 			//reset game to false
@@ -157,14 +179,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			yourScore = 0;
 			score.textContent = 0;
 			let placeholder;
-			COLORS.length = 0;
-			for (let i = 0; i < challengeCount.value / 2; i++) {
-				placeholder = randomColorFunc();
-				COLORS.push(placeholder);
-				COLORS.push(placeholder);
+			copyCARDS = [ ...CARDS ];
+			copyCARDS.length = challengeCount.value / 2;
+			gameplayCARDS = [];
+			for (let card of copyCARDS) {
+				gameplayCARDS.push(card);
+				gameplayCARDS.push(card);
 			}
-			let shuffledColors = shuffle(COLORS);
-			createDivsForColors(shuffledColors);
+			let shuffledCards = shuffle(gameplayCARDS);
+			createDivsForCards(shuffledCards);
 			gameSet = true;
 		} else {
 			return;
@@ -187,5 +210,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		challengeCount.value = '';
 		name.value = '';
 		playerList.innerText = '';
+		gameContainer.textContent = '';
+		score.textContent = 0;
 	});
 });
